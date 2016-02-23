@@ -1,0 +1,28 @@
+Dzordz autopolot serial commands
+
+What is sent to the COntroll box:
+
+c[0-255] - command possition 0-hard left, 255-hard right. 127-midships
+m[0,1,2,3] - mode: 
+              0=idle - no rudder movement regardess of the c
+              1=manual - rudder is commanded by command box
+              2=magnetic - follow magnetic bearing
+              3=gps - follow a gps track
+g - get all - control box returns all of the variables:
+
+
+Command box can send the following:
+
+b[0,1] - IsCalibrated - no command can be sent before calibration is done
+m[0,1,2,3] - current command box mode idle/manual/magnetic/gps
+s[0,1,2] - motor status - rudder motor is idle/cw/ccw
+e[0,1,2,3] - Last error:
+          0= no error;
+          1= motor timeout error - commanded position is not reached in 20s - stop all - only box reset can reset this error
+          2= motor boundary CW - if it happens that rudder is turned near to left-dead all CW commands are suspended
+          3= motor boundary CCW - same as 2 but for CCW
+p[0-255] - current rudder posiotion - 0-hard left, 255-hard right, 127 midships
+c[0-255] - current state of command position
+
+Command startu sequence:
+No commands will be accepted before command box fires b1. After that command box will send out p but will expect m-command - you must switch it to mode before command. 
